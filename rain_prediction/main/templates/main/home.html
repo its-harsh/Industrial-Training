@@ -1,0 +1,97 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+	<link rel = "stylesheet" type = "text/css" href = "{% static 'main/css/home.css' %}">
+	<title>Rainfall Prediction</title>
+</head>
+<body>
+	<div class="rain">
+	</div>
+	<div class = "sun">
+	</div>	
+	<div class = "container">
+		<form method="post" id = "date-form">
+		<div class = "form-box">
+			<div class = "heading">
+				Check for Rainfall
+			</div>
+			
+				{% csrf_token %}
+				<div class = "field-name">
+					Select the date
+				</div>
+				<div class="field">
+					<input type = "date" name = "date" id = "date">
+				</div>
+				<div class = "loc-label">
+					Select location
+				</div>
+				<div class="loc-name">
+					<input type = "text" name = "location" id = "location">
+				</div>		
+				<div class="input-btn">
+					<input type = "submit" value = "Will It Rain">
+				</div>			
+					
+		</div>
+		</form>	
+	</div>	
+
+<script>
+	let form = document.getElementById('date-form');
+	var date = "";
+	var city = "";
+	var csrftokenvalue = "";
+
+	form.reset();
+
+	form.addEventListener('submit', function(e){
+		e.preventDefault();
+		date = document.getElementById('date').value;
+		city = document.getElementById('location').value;
+		csrftokenvalue = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+		// this.reset();
+		sendRequest();
+	})
+
+	function sendRequest(){
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', '', true);
+		xhr.setRequestHeader("X-CSRFTOKEN", csrftokenvalue);
+
+		xhr.onload = function(){
+			if(this.status == 200){
+				const result = this.getResponseHeader("Rainfall");
+
+				let rain = document.getElementsByClassName('rain')[0];
+				let sun = document.getElementsByClassName('sun')[0];
+				let container = document.getElementsByClassName('container')[0];
+				
+				if(result == "YES"){
+					rain.style.display = "block";
+					sun.style.display = "none";
+					container.style.backgroundColor = "#000";
+				}else {
+					rain.style.display = "none";
+					sun.style.display = "block";
+					container.style.backgroundColor = "#87CEEB"
+				}				
+			}else{
+				console.log("Some Error Occured!!!!!!!");
+			}
+		}
+
+		let data = {"date" : date, "location" : city};
+
+		xhr.send(JSON.stringify(data));
+	}
+
+</script>	
+
+
+
+</body>
+</html>
