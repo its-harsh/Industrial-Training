@@ -1,1 +1,2 @@
 web: gunicorn rain_prediction.wsgi
+heroku ps:scale web=1
