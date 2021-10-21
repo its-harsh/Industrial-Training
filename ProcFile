@@ -1,1 +1,1 @@
-web: gunicorn rain_prediction.wsgi
+web: gunicorn Industrial-Training.wsgi
