@@ -1,2 +1,1 @@
-web: gunicorn rain_prediction.wsgi
-heroku ps:scale web=1
+web: waitress-serve --port=$PORT rain_prediction.wsgi:application
