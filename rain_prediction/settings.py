@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-a-th)=x39(lxd9r0)=-wc2db=r$idfipq=nm_89y4^0^zoh1it
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'rainfaall.herokuapp.com',
+    'rainfall-prediction-2.herokuapp.com'
 ]
 
 
